@@ -216,8 +216,10 @@ class Ui_MainWindow(object):
         current_text = self.number_placeholder.text()
         if current_text == "numberplaceholder":
             self.number_placeholder.setText(str(number))
+            self.answer_display.display(0)
         else:
             self.number_placeholder.setText(current_text + str(number))
+            self.answer_display.display(0)
 
     # puts number in calc label
     def write_to_calc_label(self, number):
@@ -229,7 +231,6 @@ class Ui_MainWindow(object):
             calc_list.append(self.number_placeholder.text())
             calc_list.append(number)
             number_count_tracker += 1
-            print(number_count_tracker)
             self.number_placeholder.setText("")
         else:
             self.calculation.setText(self.calculation.text(
@@ -237,7 +238,6 @@ class Ui_MainWindow(object):
             calc_list.append(self.number_placeholder.text())
             calc_list.append(number)
             number_count_tracker += 1
-            print(number_count_tracker)
             self.number_placeholder.setText("")
 
     # perform percentage function
@@ -254,8 +254,6 @@ class Ui_MainWindow(object):
             self.calculation.text() + self.number_placeholder.text())
         text_calc = self.calculation.text()
         calc_list.append(self.number_placeholder.text())
-        print(text_calc)
-        print(calc_list)
 
         # splits list into numbers and operators
         for i in range(len(calc_list)):
@@ -263,7 +261,6 @@ class Ui_MainWindow(object):
                 number_list.append(calc_list[i])
             else:
                 operators_list.append(calc_list[i])
-        print(number_list, operators_list)
 
         # executes the command
         try:
@@ -284,6 +281,11 @@ class Ui_MainWindow(object):
         else:
             self.answer_display.setDigitCount(9)
         self.answer_display.display(answer)
+        calc_list.clear()
+        operators_list.clear()
+        number_list.clear()
+        number_count_tracker = 0
+        answer = 0
 
     def remove_all(self):
         # resets the calculator
@@ -305,12 +307,10 @@ class Ui_MainWindow(object):
         try:
             broken_current_placeholder_text = [
                 i for i in current_placeholder_text]
-            print(current_placeholder_text)
             broken_current_placeholder_text.remove(
                 broken_current_placeholder_text[len(broken_current_placeholder_text) - 1])
         except:
             pass
-        print(broken_current_placeholder_text)
 
         # reconstructs and changes label
         reconstructed_placeholder_text = "".join(
