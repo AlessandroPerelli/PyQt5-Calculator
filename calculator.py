@@ -12,7 +12,9 @@ import operator
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(390, 570)
+        MainWindow.resize(390, 532.90)
+        MainWindow.setMinimumSize(QtCore.QSize(390,532.90))
+        MainWindow.setMaximumSize(QtCore.QSize(390,532.90))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.answer_display = QtWidgets.QLCDNumber(self.centralwidget)
@@ -154,9 +156,6 @@ class Ui_MainWindow(object):
         self.menuCalculator = QtWidgets.QMenu(self.menubar)
         self.menuCalculator.setObjectName("menuCalculator")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
         self.menubar.addAction(self.menuCalculator.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -243,8 +242,12 @@ class Ui_MainWindow(object):
     # perform percentage function
     def percentage(self):
         current_value_of_answer = self.answer_display.value()
-        percent_value = int(current_value_of_answer)/100
-        self.answer_display.display(percent_value)
+        percent_value = float(current_value_of_answer)/100
+        if len(str(percent_value)) > 9:
+            self.answer_display.setDigitCount(18)
+            self.answer_display.display(percent_value)
+        else:
+            self.answer_display.display(percent_value)
 
     def execute_command(self):
         global calc_list
